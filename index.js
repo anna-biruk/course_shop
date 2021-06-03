@@ -55,7 +55,17 @@ app.use(csrf())
 app.use(flash())
 app.use(varMiddleware)
 app.use(userMiddleware)
-app.use(helmet())
+app.use(helmet(
+    {
+        contentSecurityPolicy: {
+            directives: {
+                ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+                "img-src": ["'self'", "https:"],
+                "script-src-elem": ["'self'", "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js", "'unsafe-inline'"]
+            },
+        },
+    }
+))
 app.use(compression())
 
 
